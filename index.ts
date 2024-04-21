@@ -2,24 +2,24 @@ class MoneyTools {
     toWords(money:string):string {
         let result = '';
 
-        const dict = {
-            '1': money.length >= 7 ? 'Satu ' : 'Se',
-            '2':'dua ',
-            '3':'tiga ',
-            '4':'empat ',
-            '5':'lima ',
-            '6':'enam ',
-            '7':'tujuh ',
-            '8':'delapan ',
-            '9':'sembilan ',
-        };
+        while (money.length !== 0) {
+            while (money[0] === '0') money = money.slice(1); //2008 case
 
-        while (money[0] != '0') {
-            if (money.length === 0 && money[0] != '0') break;
+            const dict = {
+                '1': money.length >= 7  || money.length == 1 ? 'satu ' : 'se',
+                '2':'dua ',
+                '3':'tiga ',
+                '4':'empat ',
+                '5':'lima ',
+                '6':'enam ',
+                '7':'tujuh ',
+                '8':'delapan ',
+                '9':'sembilan ',
+            };
 
             const unit = {
                 '1': '',
-                '2': money[0] === '1' ? 'belas ' : 'puluh ',
+                '2': money[0] === '1' && money[1] !== '0' ? 'belas ' : 'puluh ',
                 '3': 'ratus ',
                 '4': 'ribu ',
                 '5': 'puluh ribu ',
@@ -27,8 +27,15 @@ class MoneyTools {
                 '7': 'juta '
             };
 
-            result += `${dict[money[0]]}${unit[money.length]}`
-            money = money.slice(1);
+            let index = money.length == 2 && money[0] == '1' && parseInt(money[1]) > 1 ? 1 : 0;
+
+            result += `${dict[money[index]]}${unit[money.length]}`
+
+            const isUnderTwenty = money.length == 2 && money[0] == '1';
+            if (money[1] == '0' || isUnderTwenty) money = money.slice(2);
+            else {
+                money = money.slice(1)
+            };
         }
 
         return result;
@@ -40,4 +47,9 @@ class MoneyTools {
 }
 
 const mt = new MoneyTools();
-console.log(mt.toWords('1945'));
+console.log(mt.toWords('2030'));
+// 21 solved
+// 110
+//12500
+//1225 solved
+//2008 solved
