@@ -3,7 +3,8 @@ class MoneyTools {
         let result = '';
 
         while (money.length !== 0) {
-            while (money[0] === '0') money = money.slice(1); //2008 case
+            while (money[0] === '0') money = money.slice(1);
+            if (money === '') break;
 
             const dict = {
                 '1': money.length >= 7  || money.length == 1 ? 'satu ' : 'se',
@@ -29,10 +30,14 @@ class MoneyTools {
 
             let index = money.length == 2 && money[0] == '1' && parseInt(money[1]) > 1 ? 1 : 0;
 
-            result += `${dict[money[index]]}${unit[money.length]}`
+            if (money.length === 5) result += `${dict[money[index + 1]]}belas ${unit[money.length-1]}`;
+            else {
+                result += `${dict[money[index]]}${unit[money.length]}`
+            }
 
             const isUnderTwenty = money.length == 2 && money[0] == '1';
-            if (money[1] == '0' || isUnderTwenty) money = money.slice(2);
+            const belas = money.length === 5;
+            if (money[1] == '0' || isUnderTwenty || belas) money = money.slice(2);
             else {
                 money = money.slice(1)
             };
@@ -47,7 +52,7 @@ class MoneyTools {
 }
 
 const mt = new MoneyTools();
-console.log(mt.toWords('2030'));
+console.log(mt.toWords('12000'));
 // 21 solved
 // 110
 //12500

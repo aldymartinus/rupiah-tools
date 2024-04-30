@@ -12,6 +12,9 @@
 'se' prefix start at million
 'belas' only occur once at 5 digit length
 
+12
+12 000
+12 000 000
 
 12 000
 20 000
@@ -23,3 +26,14 @@
 6 = split, 2 first number linear scan, from digit 3 full scan
 
 
+12
+1
+
+if [0] == 1 and [1] > 1
+
+12
+19
+99
+100
+
+if [0] == 1 && 
