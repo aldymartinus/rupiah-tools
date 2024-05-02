@@ -4,6 +4,7 @@ class MoneyTools {
 
         while (money.length !== 0) {
             while (money[0] === '0') money = money.slice(1);
+
             if (money === '') break;
 
             const dict = {
@@ -29,15 +30,15 @@ class MoneyTools {
             };
 
             let index = money.length == 2 && money[0] == '1' && parseInt(money[1]) > 1 ? 1 : 0;
+            const isTeenNumbers = money.length === 5 && money[0] === '1';
 
-            if (money.length === 5) result += `${dict[money[index + 1]]}belas ${unit[money.length-1]}`;
+            if (isTeenNumbers) result += `${dict[money[index + 1]]}belas ${unit[money.length-1]}`;
             else {
                 result += `${dict[money[index]]}${unit[money.length]}`
             }
 
             const isUnderTwenty = money.length == 2 && money[0] == '1';
-            const belas = money.length === 5;
-            if (money[1] == '0' || isUnderTwenty || belas) money = money.slice(2);
+            if (money[1] == '0' || isUnderTwenty || isTeenNumbers) money = money.slice(2);
             else {
                 money = money.slice(1)
             };
@@ -52,9 +53,12 @@ class MoneyTools {
 }
 
 const mt = new MoneyTools();
-console.log(mt.toWords('12000'));
+console.log(mt.toWords('22000'));
+
 // 21 solved
-// 110
-//12500
-//1225 solved
-//2008 solved
+// 110 solved
+// 1225 solved
+// 2008 solved
+// 12500 solved
+// 22500
+// 125000
