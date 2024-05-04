@@ -1,0 +1,32 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#input-container {
+    margin: 0 0 0.3rem 0;
+}
+
+#output-container {
+    width: 100%;
+}
+
+#input-txt {
+    width: 30%;
+}
+
+#output-txt {
+    width: 30%;
+}
+
+#app-title {
+    font-weight: 600;
+    text-decoration: underline;
+    margin: 5rem 0 1rem 0;
+}

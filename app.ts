@@ -31,8 +31,10 @@ class MoneyTools {
 
             let index = money.length == 2 && money[0] == '1' && parseInt(money[1]) > 1 ? 1 : 0;
             const isTeenNumbers = money.length === 5 && money[0] === '1';
+            const isAboveTeenNumbers = money.length === 5 && parseInt(money[0]) > 1;
 
             if (isTeenNumbers) result += `${dict[money[index + 1]]}belas ${unit[money.length-1]}`;
+            else if (isAboveTeenNumbers) result += `${dict[money[index + 1]]}puluh `;
             else {
                 result += `${dict[money[index]]}${unit[money.length]}`
             }
@@ -52,13 +54,24 @@ class MoneyTools {
     }
 }
 
+// app logic
 const mt = new MoneyTools();
-console.log(mt.toWords('22000'));
+const getId = (el:string) => document.getElementById(el) as HTMLInputElement;
 
-// 21 solved
-// 110 solved
-// 1225 solved
-// 2008 solved
-// 12500 solved
-// 22500
-// 125000
+const inputTxt = getId('input-txt');
+const outputTxt = getId('output-txt');
+const actionBtn = getId('submit-btn');
+
+const isNumber = (s:string):number => {
+    return s.split(' ').filter(s => s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58).length;
+};
+
+
+inputTxt?.addEventListener('keyup', (e) => {
+    if (!isNumber(inputTxt!.value)) {
+        inputTxt!.value = '';
+        inputTxt?.focus;
+    }
+
+    outputTxt.value = mt.toWords(inputTxt.value);
+});
