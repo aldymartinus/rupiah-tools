@@ -54,7 +54,6 @@ class MoneyTools {
     }
 }
 
-// app logic
 const mt = new MoneyTools();
 const getId = (el:string) => document.getElementById(el) as HTMLInputElement;
 
@@ -65,7 +64,6 @@ const actionBtn = getId('submit-btn');
 const isNumber = (s:string):number => {
     return s.split(' ').filter(s => s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58).length;
 };
-
 
 inputTxt?.addEventListener('keyup', (e) => {
     if (!isNumber(inputTxt!.value)) {
