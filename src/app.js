@@ -59,10 +59,10 @@ var inputTxt = getId('input-txt');
 var outputTxt = getId('output-txt');
 var actionBtn = getId('submit-btn');
 var isNumber = function (s) {
-    return s.split(' ').filter(function (s) { return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58; }).length;
+    return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58;
 };
 inputTxt === null || inputTxt === void 0 ? void 0 : inputTxt.addEventListener('keyup', function (e) {
-    if (!isNumber(inputTxt.value)) {
+    if (!isNumber(e.key)) {
         inputTxt.value = '';
         inputTxt === null || inputTxt === void 0 ? void 0 : inputTxt.focus;
     }

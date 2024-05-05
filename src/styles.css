@@ -3,6 +3,7 @@ body {
 }
 
 #container {
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -18,10 +19,12 @@ body {
 }
 
 #input-txt {
+    padding: 0.3rem 1rem;
     width: 30%;
 }
 
 #output-txt {
+    padding: 1rem;
     width: 30%;
 }
 
@@ -29,4 +32,16 @@ body {
     font-weight: 600;
     text-decoration: underline;
     margin: 5rem 0 1rem 0;
+}
+
+@media screen and (max-width:900px) {
+    #input-txt {
+        padding: 0.3rem 1rem;
+        width: 75%;
+    }
+    
+    #output-txt {
+        padding: 1rem;
+        width: 75%;
+    }
 }

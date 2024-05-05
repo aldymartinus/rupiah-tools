@@ -61,13 +61,13 @@ const inputTxt = getId('input-txt');
 const outputTxt = getId('output-txt');
 const actionBtn = getId('submit-btn');
 
-const isNumber = (s:string):number => {
-    return s.split(' ').filter(s => s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58).length;
+const isNumber = (s:string):boolean => {
+    return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58
 };
 
 inputTxt?.addEventListener('keyup', (e) => {
-    if (!isNumber(inputTxt!.value)) {
-        inputTxt!.value = '';
+    if (!isNumber(e.key)) {
+        inputTxt.value = '';
         inputTxt?.focus;
     }
 
