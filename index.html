@@ -11,9 +11,59 @@
         <span id="app-title">Number to Word</span>
         <div id="input-container">
             <input type="text" placeholder="Input some number" id="input-txt">
+            <div id="button-container">
+                <button id="submit-button">Proceed</button>
+                <button id="reset-button">Reset</button>
+            </div>
         </div>
         <div id="output-container">
-            <textarea name="output" id="output-txt" cols="25"></textarea>
+            <textarea name="output" id="output-txt" cols="25" disabled></textarea>
+            <table id="parse-table">
+                <thead>
+                    <tr>
+                        <th>Nominal</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rp100.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp50.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp20.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp10.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp5.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp2.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp1.000</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp500</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Rp200</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </div>
         </div>
     </div>
     <script src="./src/app.js"></script>

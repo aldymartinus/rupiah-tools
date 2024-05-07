@@ -3,7 +3,8 @@ body {
 }
 
 #container {
-    width: 100%;
+    margin: 0 auto;
+    width: 25%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -11,6 +12,8 @@ body {
 }
 
 #input-container {
+    display: flex;
+    flex-direction: column;
     margin: 0 0 0.3rem 0;
 }
 
@@ -19,29 +22,54 @@ body {
 }
 
 #input-txt {
-    padding: 0.3rem 1rem;
-    width: 30%;
+    font-weight: 600;
+    font-family: monospace;
+    padding: 0.3rem 1rem;   
+    flex-grow: 1;
+}
+
+#output-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#parse-table, tr ,th, td{
+    font-size: 1rem;
+    font-family: monospace;
+    margin: 0.3rem 0 0 0;
+    border: 1px solid #ccc;
+    border-collapse: collapse;
 }
 
 #output-txt {
+    flex-grow: 1;
     padding: 1rem;
-    width: 30%;
 }
 
 #app-title {
     font-weight: 600;
     text-decoration: underline;
-    margin: 5rem 0 1rem 0;
+    margin: 2rem 0 1rem 0;
+}
+
+#button-container {
+    margin:  0.5rem 0 0 0;
+    display: flex;
+    justify-content: center;
+}
+
+#button-container button {
+    cursor: pointer;
+    padding: 0.3rem;
+    width: 100%;
+}
+
+#submit-button {
+    margin: 0 0.4rem 0 0;
 }
 
 @media screen and (max-width:900px) {
-    #input-txt {
-        padding: 0.3rem 1rem;
-        width: 75%;
-    }
-    
-    #output-txt {
-        padding: 1rem;
-        width: 75%;
+    #container {
+        width: 90%;
     }
 }
