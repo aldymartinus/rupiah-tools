@@ -42,7 +42,7 @@ class MoneyTools {
             const isAboveTeenNumbers = money.length === 5 && parseInt(money[0]) > 1;
 
             if (isTeenNumbers) result += `${dict[money[index + 1]]}belas ${unit[money.length - 1]}`;
-            else if (isAboveTeenNumbers) result += `${dict[money[index + 1]]}puluh `;
+            else if (isAboveTeenNumbers) result += `${dict[money[index]]}puluh `;
             else {
                 result += `${dict[money[index]]}${unit[money.length]}`
             }
@@ -58,16 +58,19 @@ class MoneyTools {
     }
 
     parse(money: number): object {
-        const nominal = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200];
-        const pas: number[] = [];
+        const fractions = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200];
+        const quantity: number[] = [];
         let i = 0;
         while (money != 0) {
-            pas.push(Math.floor(money / nominal[i]));
-            money = money % nominal[i];
+            quantity.push(Math.floor(money / fractions[i]));
+            money = money % fractions[i];
             i++;
         }
 
-        return nominal.reduce((acc, curr, index) => ({...acc, [curr]: pas[index] ?? 0}), {});
+        // return nominal.reduce((acc, curr, index) => ({...acc, [curr]: qtyOfFractions[index] ?? 0}), {});
+        return fractions.map((val, index) => {
+            return {[val]:quantity[index] ?? 0};
+        });
     }
 }
 
@@ -78,18 +81,49 @@ const inputTxt = getId('input-txt');
 const outputTxt = getId('output-txt');
 const actionBtn = getId('submit-button');
 const resetBtn = getId('reset-button');
+const parseTable = getId('parse-table');
 
 const isNumber = (s: string): boolean => {
     return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58
 };
 
 actionBtn?.addEventListener('click', (e) => {
-
-
+    const parseData = mt.parse(parseInt(inputTxt.value));
     outputTxt.value = mt.toWords(inputTxt.value);
+    renderParseTable(parseData);
 });
 
 resetBtn?.addEventListener('click', (e) => {
     inputTxt.value = '';
     outputTxt.value = '';
+    parseTable.innerHTML = '';
 });
+
+const renderParseTable = (data) => {
+
+    parseTable.innerHTML = `
+    <tr>
+        <th>Fractions</th>
+        <th>Quantity</th>
+    </tr>
+    `;
+
+    data.forEach((element:Number) => {
+        const tr = document.createElement('tr');
+        const td_fractions = document.createElement('td');
+        const td_qty = document.createElement('td');
+
+        const key = Object.keys(element)[0];
+        td_fractions.textContent = key;
+        td_qty.textContent = `${element[key]} lembar`;
+
+        tr.appendChild(td_fractions);
+        tr.appendChild(td_qty)
+
+        parseTable.appendChild(tr);
+    });
+};
+
+// -- number to word issues --
+// 1 2500 000
+// 120 000

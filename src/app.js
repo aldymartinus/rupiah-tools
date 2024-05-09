@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var MoneyTools = /** @class */ (function () {
     function MoneyTools() {
     }
@@ -53,7 +42,7 @@ var MoneyTools = /** @class */ (function () {
             if (isTeenNumbers)
                 result += "".concat(dict[money[index + 1]], "belas ").concat(unit[money.length - 1]);
             else if (isAboveTeenNumbers)
-                result += "".concat(dict[money[index + 1]], "puluh ");
+                result += "".concat(dict[money[index]], "puluh ");
             else {
                 result += "".concat(dict[money[index]]).concat(unit[money.length]);
             }
@@ -68,19 +57,20 @@ var MoneyTools = /** @class */ (function () {
         return result;
     };
     MoneyTools.prototype.parse = function (money) {
-        var nominal = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200];
-        var pas = [];
+        var fractions = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200];
+        var quantity = [];
         var i = 0;
         while (money != 0) {
-            pas.push(Math.floor(money / nominal[i]));
-            money = money % nominal[i];
+            quantity.push(Math.floor(money / fractions[i]));
+            money = money % fractions[i];
             i++;
         }
-        return nominal.reduce(function (acc, curr, index) {
+        // return nominal.reduce((acc, curr, index) => ({...acc, [curr]: qtyOfFractions[index] ?? 0}), {});
+        return fractions.map(function (val, index) {
             var _a;
             var _b;
-            return (__assign(__assign({}, acc), (_a = {}, _a[curr] = (_b = pas[index]) !== null && _b !== void 0 ? _b : 0, _a)));
-        }, {});
+            return _a = {}, _a[val] = (_b = quantity[index]) !== null && _b !== void 0 ? _b : 0, _a;
+        });
     };
     return MoneyTools;
 }());
@@ -90,13 +80,34 @@ var inputTxt = getId('input-txt');
 var outputTxt = getId('output-txt');
 var actionBtn = getId('submit-button');
 var resetBtn = getId('reset-button');
+var parseTable = getId('parse-table');
 var isNumber = function (s) {
     return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58;
 };
 actionBtn === null || actionBtn === void 0 ? void 0 : actionBtn.addEventListener('click', function (e) {
+    var parseData = mt.parse(parseInt(inputTxt.value));
     outputTxt.value = mt.toWords(inputTxt.value);
+    renderParseTable(parseData);
 });
 resetBtn === null || resetBtn === void 0 ? void 0 : resetBtn.addEventListener('click', function (e) {
     inputTxt.value = '';
     outputTxt.value = '';
+    parseTable.innerHTML = '';
 });
+var renderParseTable = function (data) {
+    parseTable.innerHTML = "\n    <tr>\n        <th>Fractions</th>\n        <th>Quantity</th>\n    </tr>\n    ";
+    data.forEach(function (element) {
+        var tr = document.createElement('tr');
+        var td_fractions = document.createElement('td');
+        var td_qty = document.createElement('td');
+        var key = Object.keys(element)[0];
+        td_fractions.textContent = key;
+        td_qty.textContent = "".concat(element[key], " lembar");
+        tr.appendChild(td_fractions);
+        tr.appendChild(td_qty);
+        parseTable.appendChild(tr);
+    });
+};
+// -- number to word issues --
+// 1 2500 000
+// 120 000

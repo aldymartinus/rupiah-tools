@@ -22,6 +22,7 @@ body {
 }
 
 #input-txt {
+    text-align: center;
     font-weight: 600;
     font-family: monospace;
     padding: 0.3rem 1rem;   
@@ -39,6 +40,8 @@ body {
     margin: 0.3rem 0 0 0;
     border: 1px solid #ccc;
     border-collapse: collapse;
+    padding: 0.3rem;
+    font-size: 0.9rem;
 }
 
 #output-txt {
