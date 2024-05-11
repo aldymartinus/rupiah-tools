@@ -58,7 +58,7 @@ class MoneyTools {
     }
 
     parse(money: number): object {
-        const fractions = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200];
+        const fractions = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100];
         const quantity: number[] = [];
         let i = 0;
         while (money != 0) {
@@ -83,21 +83,43 @@ const actionBtn = getId('submit-button');
 const resetBtn = getId('reset-button');
 const parseTable = getId('parse-table');
 
-const isNumber = (s: string): boolean => {
-    return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58
+const isNumber = (s: string): number => {
+    return s.split(' ').filter(s => s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58).length;
 };
 
 actionBtn?.addEventListener('click', (e) => {
-    const parseData = mt.parse(parseInt(inputTxt.value));
-    outputTxt.value = mt.toWords(inputTxt.value);
-    renderParseTable(parseData);
+    if (!isNumber(inputTxt.value)) {
+        resetInput();
+        outputTxt.className = 'input-error';
+        outputTxt.value = "The given input aren't eligible";
+        outputTxt.style.color = 'red';
+    }
+    else {
+        outputTxt.className = '';
+        outputTxt.style.color = 'black';
+        outputTxt.value = mt.toWords(inputTxt.value);
+        
+        if (parseInt(inputTxt.value) < 100) {
+            return 0;
+        }
+        else {
+            const parseData = mt.parse(parseInt(inputTxt.value));
+            renderParseTable(parseData);
+        };
+    }
 });
 
 resetBtn?.addEventListener('click', (e) => {
+    resetInput();
+});
+
+const resetInput = () => {
     inputTxt.value = '';
     outputTxt.value = '';
     parseTable.innerHTML = '';
-});
+
+    inputTxt.focus();
+};
 
 const renderParseTable = (data) => {
 
@@ -115,7 +137,7 @@ const renderParseTable = (data) => {
 
         const key = Object.keys(element)[0];
         td_fractions.textContent = key;
-        td_qty.textContent = `${element[key]} lembar`;
+        td_qty.textContent = `${element[key]} ${parseInt(key) < 1000 ? 'koin' : 'lembar'}`;
 
         tr.appendChild(td_fractions);
         tr.appendChild(td_qty)

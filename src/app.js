@@ -57,7 +57,7 @@ var MoneyTools = /** @class */ (function () {
         return result;
     };
     MoneyTools.prototype.parse = function (money) {
-        var fractions = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200];
+        var fractions = [100000, 50000, 20000, 10000, 5000, 2000, 1000, 500, 200, 100];
         var quantity = [];
         var i = 0;
         while (money != 0) {
@@ -82,18 +82,38 @@ var actionBtn = getId('submit-button');
 var resetBtn = getId('reset-button');
 var parseTable = getId('parse-table');
 var isNumber = function (s) {
-    return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58;
+    return s.split(' ').filter(function (s) { return s.charCodeAt(0) > 47 && s.charCodeAt(0) < 58; }).length;
 };
 actionBtn === null || actionBtn === void 0 ? void 0 : actionBtn.addEventListener('click', function (e) {
-    var parseData = mt.parse(parseInt(inputTxt.value));
-    outputTxt.value = mt.toWords(inputTxt.value);
-    renderParseTable(parseData);
+    if (!isNumber(inputTxt.value)) {
+        resetInput();
+        outputTxt.className = 'input-error';
+        outputTxt.value = "The given input aren't eligible";
+        outputTxt.style.color = 'red';
+    }
+    else {
+        outputTxt.className = '';
+        outputTxt.style.color = 'black';
+        outputTxt.value = mt.toWords(inputTxt.value);
+        if (parseInt(inputTxt.value) < 100) {
+            return 0;
+        }
+        else {
+            var parseData = mt.parse(parseInt(inputTxt.value));
+            renderParseTable(parseData);
+        }
+        ;
+    }
 });
 resetBtn === null || resetBtn === void 0 ? void 0 : resetBtn.addEventListener('click', function (e) {
+    resetInput();
+});
+var resetInput = function () {
     inputTxt.value = '';
     outputTxt.value = '';
     parseTable.innerHTML = '';
-});
+    inputTxt.focus();
+};
 var renderParseTable = function (data) {
     parseTable.innerHTML = "\n    <tr>\n        <th>Fractions</th>\n        <th>Quantity</th>\n    </tr>\n    ";
     data.forEach(function (element) {
@@ -102,7 +122,7 @@ var renderParseTable = function (data) {
         var td_qty = document.createElement('td');
         var key = Object.keys(element)[0];
         td_fractions.textContent = key;
-        td_qty.textContent = "".concat(element[key], " lembar");
+        td_qty.textContent = "".concat(element[key], " ").concat(parseInt(key) < 1000 ? 'koin' : 'lembar');
         tr.appendChild(td_fractions);
         tr.appendChild(td_qty);
         parseTable.appendChild(tr);
